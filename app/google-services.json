@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "275199347575",
+    "firebase_url": "https://udacity-bceb8.firebaseio.com",
+    "project_id": "udacity-bceb8",
+    "storage_bucket": "udacity-bceb8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275199347575:android:3345804a39540d3f",
+        "android_client_info": {
+          "package_name": "android.example.com.squawker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275199347575-rf76pc3tdr0t5th6g4kdihbs2rt5f4p4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALNKTjzSz9wypLx2ZSzy9kpoxz2nKmHJk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275199347575:android:814dffa147aa1b08",
+        "android_client_info": {
+          "package_name": "hr.murielkamgang.mysubreddits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275199347575-rf76pc3tdr0t5th6g4kdihbs2rt5f4p4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALNKTjzSz9wypLx2ZSzy9kpoxz2nKmHJk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

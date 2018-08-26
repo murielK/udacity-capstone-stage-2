@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">My Subreddits</string>
+    <string name="error_msg_not_connected">Sorry, internet connection is required.</string>
+    <string name="error_msg_something_went_wrong">Something went wrong.</string>
+    <string name="select_subreddit">Select subreddits</string>
+    <string name="save">Save</string>
+    <string name="processing">Processing…</string>
+    <string name="widget_thread_label">mySubreddits</string>
+    <string name="share">Share</string>
+    <string name="text_comments">%s comments</string>
+    <string name="place_holder_min">%d minute ago</string>
+    <string name="place_holder_mins">%d minutes ago</string>
+    <string name="place_holder_sec">%d seconds ago</string>
+    <string name="place_holder_hour">%d hour ago</string>
+    <string name="text_yesterday">Yesterday</string>
+    <string name="place_holder_days">%d days ago</string>
+    <string name="text_week_ago">1 week ago</string>
+    <string name="text_comment">%s Comment</string>
+    <string name="text_count">%s</string>
+    <string name="place_holder_hours">%d hours ago</string>
+    <string name="reset_preference">Reset preferences</string>
+    <string name="error_msg_emty_subreddit_selection">Please select at least 1 subreddit</string>
+    <string name="title_reset_preference">Reset preferences?</string>
+    <string name="msg_reset_preference">Please note that this action will clear all your current data</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_no">No</string>
+    <string name="error_msg_max_selection">You can only have a maximum of %d selection(s)</string>
+    <string name="title_intent_chooser">Share with</string>
+    <string name="text_content_description_img_preview">Preview image of the post</string>
+    <string name="text_content_description_img_play">Play Icon</string>
+    <string name="text_empty_comment">No comment found for this thread!</string>
+    <string name="text_content_description_img_sub_preview">Subreddit image icon</string>
+    <string name="plus">+</string>
+</resources>
