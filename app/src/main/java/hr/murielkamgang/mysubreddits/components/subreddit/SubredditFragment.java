@@ -1,7 +1,7 @@
 package hr.murielkamgang.mysubreddits.components.subreddit;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -37,9 +37,12 @@ public class SubredditFragment extends BaseContentFragment<Subreddit, SubredditC
 
     @Override
     protected void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        final int spanCount = getResources().getInteger(R.integer.sub_reddit_spant_count);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), spanCount));
         final AdapterItemDivider itemDivider =
-                new AdapterItemDivider(getContext(), getResources().getDrawable(R.drawable.recyclerview_item_divider), AdapterItemDivider.ORIENTATION_VERTICAL);
+                new AdapterItemDivider(getContext()
+                        , getResources().getDrawable(R.drawable.recyclerview_item_divider)
+                        , AdapterItemDivider.ORIENTATION_VERTICAL);
         recyclerView.addItemDecoration(itemDivider);
         recyclerView.setAdapter(subredditAdapter);
     }

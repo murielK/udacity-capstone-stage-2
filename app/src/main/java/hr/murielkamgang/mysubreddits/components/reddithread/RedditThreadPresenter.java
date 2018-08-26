@@ -1,9 +1,7 @@
 package hr.murielkamgang.mysubreddits.components.reddithread;
 
-import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
-import android.content.ComponentName;
 import android.support.v7.util.DiffUtil;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -17,7 +15,6 @@ import javax.inject.Inject;
 
 import hr.murielkamgang.mysubreddits.R;
 import hr.murielkamgang.mysubreddits.components.base.BaseContentListPresenter;
-import hr.murielkamgang.mysubreddits.components.widget.RedditThreadWidgetProvider;
 import hr.murielkamgang.mysubreddits.data.model.thread.RedditThread;
 import hr.murielkamgang.mysubreddits.data.source.thread.ReddiThreadLocalDataSource;
 import hr.murielkamgang.mysubreddits.data.source.thread.RedditThreadRepository;
@@ -52,17 +49,7 @@ public class RedditThreadPresenter extends BaseContentListPresenter<RedditThread
         listLiveData.observe((LifecycleOwner) view.getContext(), redditThreads -> {
             logger.debug("something has changed!");
             load();
-            forWidgetUpdate();
         });
-    }
-
-    private void forWidgetUpdate() {
-        final AppWidgetManager am = AppWidgetManager.getInstance(view.getContext());
-        final int[] appWidgetIds = am.getAppWidgetIds(
-                new ComponentName(view.getContext(), RedditThreadWidgetProvider.class));
-
-        RedditThreadWidgetProvider.update(view.getContext(), am, appWidgetIds);
-        am.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.listView);
     }
 
     @Override
@@ -81,7 +68,11 @@ public class RedditThreadPresenter extends BaseContentListPresenter<RedditThread
 
     @Override
     public void delegateOnItemClicked(RedditThread redditThread) {
-        view.viewCommentFor(redditThread);
+        if (view.getContext().getResources().getBoolean(R.bool.landscape)) {
+            view.viewCommentInFragmentFor(redditThread);
+        } else {
+            view.viewCommentFor(redditThread);
+        }
         Utils.trackSelectRedditThread(firebaseAnalytics, redditThread);
     }
 

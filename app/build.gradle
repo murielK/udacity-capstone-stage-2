@@ -1,4 +1,24 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.moallemi.advanced-build-version'
+
+import org.moallemi.gradle.internal.VersionCodeType
+
+advancedVersioning {
+    codeOptions {
+        versionCodeType VersionCodeType.DATE
+    }
+
+    nameOptions {
+        versionMajor 1
+        versionMinor 0
+        versionPatch 0
+    }
+
+    outputOptions {
+        renameOutput false
+        nameFormat '${appName}-${buildType}-${versionName}'
+    }
+}
 
 android {
     compileSdkVersion 28
@@ -6,8 +26,8 @@ android {
         applicationId "hr.murielkamgang.mysubreddits"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode advancedVersioning.versionCode
+        versionName advancedVersioning.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -43,9 +63,20 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def separator = "-"
+            def newApkName = output.outputFile.name.replace(".apk", separator + variant.versionName + ".apk")
+            outputFileName = new File(newApkName)
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
     compileOptions {
-        sourceCompatibility = '1.8'
-        targetCompatibility = '1.8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

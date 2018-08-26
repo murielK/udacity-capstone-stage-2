@@ -1,5 +1,7 @@
 package hr.murielkamgang.mysubreddits.components.comment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
@@ -45,6 +47,15 @@ public class CommentFragment extends BaseContentFragment<Comment, CommentContrac
 
     @Inject
     public CommentFragment() {
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (presenter != null && getArguments() != null) {
+            presenter.setBundle(getArguments());
+        }
     }
 
     @Override
@@ -123,6 +134,7 @@ public class CommentFragment extends BaseContentFragment<Comment, CommentContrac
     protected void onPostViewCreate(View view) {
         super.onPostViewCreate(view);
         threadBinder = new ThreadBinder(layoutThread, dateHelper, countHelper);
+        layoutThread.setVisibility(View.GONE);
         threadBinder.textShare.setVisibility(View.GONE);
         separator.setVisibility(View.GONE);
         threadBinder.viewClick.setOnClickListener(v -> {

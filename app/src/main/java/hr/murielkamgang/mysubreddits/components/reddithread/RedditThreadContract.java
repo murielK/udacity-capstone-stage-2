@@ -9,6 +9,8 @@ public interface RedditThreadContract {
 
         void viewCommentFor(RedditThread redditThread);
 
+        void viewCommentInFragmentFor(RedditThread redditThread);
+
         void openYoutube(String url);
 
         void viewImage(String url);

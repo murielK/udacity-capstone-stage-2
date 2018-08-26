@@ -1,10 +1,12 @@
 package hr.murielkamgang.mysubreddits.components.comment;
 
+import android.os.Bundle;
+
 import hr.murielkamgang.mysubreddits.components.base.BaseContentListContract;
 import hr.murielkamgang.mysubreddits.data.model.comment.Comment;
 import hr.murielkamgang.mysubreddits.data.model.thread.RedditThread;
 
-interface CommentContract {
+public interface CommentContract {
 
     interface View extends BaseContentListContract.View<Comment> {
 
@@ -24,5 +26,9 @@ interface CommentContract {
         void delegateOnCardClicked(RedditThread redditThread);
 
         void delegateOnShareClicked(RedditThread redditThread);
+
+        void setBundle(Bundle bundle);
+
+
     }
 }

@@ -1,5 +1,7 @@
 package hr.murielkamgang.mysubreddits.components.comment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.support.v7.util.DiffUtil;
 
@@ -10,6 +12,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import hr.murielkamgang.mysubreddits.R;
 import hr.murielkamgang.mysubreddits.components.base.BaseContentListPresenter;
 import hr.murielkamgang.mysubreddits.data.model.comment.Comment;
 import hr.murielkamgang.mysubreddits.data.model.thread.RedditThread;
@@ -21,15 +24,16 @@ import io.reactivex.disposables.Disposable;
 
 public class CommentPresenter extends BaseContentListPresenter<Comment, CommentContract.View> implements CommentContract.Presenter {
 
+    public static final String BUNDLE_THREAD_ID = "BUNDLE_THREAD_ID";
     private final Logger logger = LoggerFactory.getLogger(CommentPresenter.class);
     private final CommentRepository commentRepository;
     private final RedditThreadRepository redditThreadRepository;
-    private final String threadId;
+    private String threadId;
 
     private Disposable threadDisposable;
 
     @Inject
-    CommentPresenter(CommentRepository commentRepository, RedditThreadRepository redditThreadRepository, String threadId) {
+    CommentPresenter(CommentRepository commentRepository, RedditThreadRepository redditThreadRepository, @Nullable String threadId) {
         this.commentRepository = commentRepository;
         this.redditThreadRepository = redditThreadRepository;
         this.threadId = threadId;
@@ -37,13 +41,15 @@ public class CommentPresenter extends BaseContentListPresenter<Comment, CommentC
 
     @Override
     protected Observable<List<Comment>> provideLoadObservable(boolean sync) {
-        return commentRepository.getAllDataAsObservable(threadId);
+        return threadId == null ? Observable.empty() : commentRepository.getAllDataAsObservable(threadId);
     }
 
     @Override
     public void setView(CommentContract.View view) {
         super.setView(view);
-        loadThread();
+        if (!view.getContext().getResources().getBoolean(R.bool.landscape) && threadId != null) {
+            loadThread();
+        }
     }
 
     @Override
@@ -77,6 +83,14 @@ public class CommentPresenter extends BaseContentListPresenter<Comment, CommentC
     @Override
     public void delegateOnShareClicked(RedditThread redditThread) {
         view.shareItem(redditThread);
+    }
+
+    @Override
+    public void setBundle(Bundle bundle) {
+        threadId = bundle.getString(BUNDLE_THREAD_ID);
+        if (threadId != null) {
+            load();
+        }
     }
 
     @Override

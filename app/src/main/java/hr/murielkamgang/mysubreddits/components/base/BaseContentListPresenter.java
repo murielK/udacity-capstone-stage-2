@@ -74,7 +74,7 @@ public abstract class BaseContentListPresenter<T, V extends BaseContentListContr
         if (view != null) {
             view.onLoaded(pair.first, pair.second);
             oldItems = pair.first;
-            if (!sync) {
+            if (!sync && (oldItems != null && !oldItems.isEmpty())) {
                 view.swipeToRefresh(false);
             }
         }

@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import androidx.work.BackoffPolicy;
 import androidx.work.Constraints;
 import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
@@ -35,7 +36,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class SubredditPresenter extends BaseContentListPresenter<Subreddit, SubredditContract.View> implements SubredditContract.Presenter {
 
-    private static final int REPEAT_INTERVAL = 15;
+    private static final int REPEAT_INTERVAL = 30;
+    private static final int FLEX_INTERVAL = 5;
     private static final int MAX_SELECTION = 10;
     private final SubredditRepository subredditRepository;
     private final RedditThreadRepository redditThreadStringRepository;
@@ -119,9 +121,7 @@ public class SubredditPresenter extends BaseContentListPresenter<Subreddit, Subr
                         .filter(redditThreads -> !redditThreads.isEmpty())
                         .subscribe(redditThreads -> {
                             //lets set it to configured if we get at least few threads.
-                            if (!preferenceHelper.isConfigured()) {
-                                configureWorker();
-                            }
+                            configureWorker();
                         }, throwable -> {
                             if (view != null) {
                                 view.dismissDialog();
@@ -150,9 +150,16 @@ public class SubredditPresenter extends BaseContentListPresenter<Subreddit, Subr
     private void configureWorker() {
         if (!preferenceHelper.isConfigured()) {
             preferenceHelper.setConfigured();
-            final WorkRequest wr = new PeriodicWorkRequest.Builder(LoadRedditThreadWorker.class, REPEAT_INTERVAL, TimeUnit.MINUTES)
-                    .setConstraints(new Constraints.Builder().setRequiresBatteryNotLow(true).setRequiredNetworkType(NetworkType.CONNECTED).build()).build();
+            final WorkRequest wr = new PeriodicWorkRequest
+                    .Builder(LoadRedditThreadWorker.class, REPEAT_INTERVAL, TimeUnit.MINUTES, FLEX_INTERVAL, TimeUnit.MINUTES)
+                    .setConstraints(new Constraints.Builder()
+                            .setRequiresBatteryNotLow(true)
+                            .setRequiredNetworkType(NetworkType.CONNECTED)
+                            .build())
+                    .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, WorkRequest.DEFAULT_BACKOFF_DELAY_MILLIS, TimeUnit.MILLISECONDS)
+                    .build();
             WorkManager.getInstance().enqueue(wr);
+            logger.debug("worker created and enqueue");
         }
     }
 

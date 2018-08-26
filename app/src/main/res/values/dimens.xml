@@ -2,4 +2,5 @@
 <resources>
     <dimen name="base_margin">16dp</dimen>
     <dimen name="image_height">200dp</dimen>
+    <dimen name="dimen_save_but_width">140dp</dimen>
 </resources>

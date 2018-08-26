@@ -1,6 +1,7 @@
 package hr.murielkamgang.mysubreddits.components.reddithread;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
@@ -13,6 +14,8 @@ import javax.inject.Inject;
 import hr.murielkamgang.mysubreddits.R;
 import hr.murielkamgang.mysubreddits.components.base.BaseContentFragment;
 import hr.murielkamgang.mysubreddits.components.comment.CommentActivity;
+import hr.murielkamgang.mysubreddits.components.comment.CommentFragment;
+import hr.murielkamgang.mysubreddits.components.comment.CommentPresenter;
 import hr.murielkamgang.mysubreddits.components.image.ImageViewerActivity;
 import hr.murielkamgang.mysubreddits.components.subreddit.SubRedditActivity;
 import hr.murielkamgang.mysubreddits.data.model.thread.RedditThread;
@@ -79,12 +82,26 @@ public class RedditThreadFragment extends BaseContentFragment<RedditThread, Redd
 
     @Override
     protected int getResourceView() {
-        return R.layout.default_recycler_view_fragment;
+        return R.layout.reddit_thread_fragment;
     }
 
     @Override
     public void viewCommentFor(RedditThread redditThread) {
         CommentActivity.viewComment(getContext(), redditThread);
+    }
+
+    @Override
+    public void viewCommentInFragmentFor(RedditThread redditThread) {
+        final CommentFragment cf = new CommentFragment();
+
+        final Bundle b = new Bundle(1);
+        b.putString(CommentPresenter.BUNDLE_THREAD_ID, redditThread.getId());
+        cf.setArguments(b);
+
+        getChildFragmentManager()
+                .beginTransaction()
+                .replace(R.id.layoutRight, cf)
+                .commit();
     }
 
     @Override
